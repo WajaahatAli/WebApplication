@@ -24,13 +24,21 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+      - name: Debug even if build fails
+        if: always()
+        run: |
+          echo "DEBUG: Current directory:"
+          pwd
+          echo "DEBUG: File structure:"
+          ls -R .
+
       - name: Upload to $web container
+        if: success()
         uses: azure/CLI@v1
         with:
           inlineScript: |
             az storage blob upload-batch \
-              --account-name campusdevicefuncstore \
-              --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+              --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
+              --source ./dist \
               --destination '$web' \
-              --source dist \
               --overwrite
