@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DeviceCatalogue from '../views/DeviceCatalogue.vue'
+import DeviceCatalogue from '../views/devicecatalogue.vue'
+
 
 const routes = [
   { path: '/', redirect: '/devices' },
